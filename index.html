@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Fuquay Business Coalition</title>
+<meta name="description" content="The Fuquay Business Coalition (FBC) — a weekly networking group of Fuquay-Varina business owners. We meet Wednesday mornings at The Citadel Event Space. Visitors welcome." />
+
+<!-- Display font: stand-in for FBC's "October Owls" (not web-embeddable). Easy to swap. -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Amarante&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --yellow: #F5C518;
+    --navy: #1F3A6B;
+    --navy-soft: #2c4d86;
+    --charcoal: #4A4A4A;
+    --cream: #FFFCF2;
+    --paper: #ffffff;
+
+    /* Background wash controls — tune these for the "window reflection" look */
+    --bg-opacity: 0.12;
+    --bg-saturate: 0.6;
+    --bg-brightness: 1.18;
+
+    --display: 'Amarante', Georgia, serif;
+    --head: Georgia, 'Times New Roman', serif;
+    --body: Calibri, 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    font-family: var(--body);
+    color: var(--charcoal);
+    background: var(--cream);
+    line-height: 1.6;
+    font-size: 18px;
+  }
+
+  /* Full-page washed-out building art — sits behind everything like a faint reflection */
+  .page-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background: url('assets/building-art.png') center top / cover no-repeat;
+    opacity: var(--bg-opacity);
+    filter: saturate(var(--bg-saturate)) brightness(var(--bg-brightness));
+    pointer-events: none;
+  }
+  /* Soft cream veil so text stays readable on top of the art */
+  .page-veil {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(255,252,242,0.55), rgba(255,252,242,0.75));
+    pointer-events: none;
+  }
+
+  .wrap { width: 100%; max-width: 980px; margin: 0 auto; padding: 0 22px; }
+
+  a { color: var(--navy); }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    text-align: center;
+    padding: 70px 22px 64px;
+    overflow: hidden;
+  }
+  .hero-art {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: url('assets/building-art.png') center 30% / cover no-repeat;
+    opacity: 0.28;
+    filter: saturate(0.7) brightness(1.1);
+  }
+  .hero-art::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(255,252,242,0.45) 0%, rgba(255,252,242,0.82) 78%);
+  }
+  .hero > * { position: relative; z-index: 1; }
+
+  .hero img.logo {
+    width: 148px; height: 148px;
+    margin: 0 auto 14px;
+    display: block;
+    filter: drop-shadow(0 4px 10px rgba(31,58,107,0.18));
+  }
+  .hero h1 {
+    font-family: var(--display);
+    color: var(--navy);
+    font-weight: 400;
+    font-size: clamp(34px, 6vw, 60px);
+    line-height: 1.05;
+    margin: 6px 0 10px;
+    letter-spacing: 0.5px;
+  }
+  .tagline {
+    font-family: var(--body);
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-size: 12.5px;
+    font-weight: bold;
+    color: var(--navy-soft);
+    margin: 0 0 22px;
+  }
+  .mission {
+    font-family: var(--head);
+    font-style: italic;
+    font-size: clamp(19px, 2.6vw, 25px);
+    color: var(--navy);
+    max-width: 720px;
+    margin: 0 auto 30px;
+    line-height: 1.4;
+  }
+
+  .btn {
+    display: inline-block;
+    background: var(--yellow);
+    color: var(--navy);
+    font-family: var(--body);
+    font-weight: bold;
+    font-size: 17px;
+    text-decoration: none;
+    padding: 15px 30px;
+    border-radius: 999px;
+    border: 2px solid var(--navy);
+    box-shadow: 0 5px 0 var(--navy);
+    transition: transform .08s ease, box-shadow .08s ease;
+    cursor: pointer;
+  }
+  .btn:hover { transform: translateY(2px); box-shadow: 0 3px 0 var(--navy); }
+  .btn:active { transform: translateY(5px); box-shadow: 0 0 0 var(--navy); }
+
+  /* ---------- SECTIONS ---------- */
+  section.band {
+    background: rgba(255,255,255,0.86);
+    backdrop-filter: blur(2px);
+    border-top: 1px solid rgba(31,58,107,0.10);
+    border-bottom: 1px solid rgba(31,58,107,0.10);
+    padding: 54px 0;
+  }
+  section.band:nth-of-type(even) { background: rgba(255,252,242,0.82); }
+
+  h2 {
+    font-family: var(--head);
+    color: var(--navy);
+    font-size: clamp(25px, 3.4vw, 33px);
+    margin: 0 0 16px;
+    line-height: 1.2;
+  }
+  h2 .accent {
+    display: block;
+    width: 56px; height: 4px;
+    background: var(--yellow);
+    border-radius: 3px;
+    margin-top: 10px;
+  }
+  section p { max-width: 760px; }
+  .lede { font-size: 19.5px; }
+
+  .meet-facts {
+    margin-top: 22px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .fact {
+    background: var(--paper);
+    border: 1px solid rgba(31,58,107,0.14);
+    border-left: 5px solid var(--yellow);
+    border-radius: 8px;
+    padding: 14px 18px;
+    flex: 1 1 220px;
+  }
+  .fact strong { color: var(--navy); display: block; font-family: var(--head); font-size: 16px; }
+  .fact span { font-size: 16px; }
+
+  /* ---------- CALENDAR ---------- */
+  .cal-frame {
+    margin-top: 22px;
+    border: 1px solid rgba(31,58,107,0.18);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(31,58,107,0.10);
+    background: #fff;
+  }
+  .cal-frame iframe { width: 100%; height: 620px; border: 0; display: block; }
+  @media (max-width: 600px) { .cal-frame iframe { height: 520px; } }
+
+  /* ---------- FORM ---------- */
+  #visit { scroll-margin-top: 10px; }
+  form.fbc {
+    margin-top: 24px;
+    background: var(--paper);
+    border: 1px solid rgba(31,58,107,0.16);
+    border-radius: 12px;
+    padding: 26px;
+    box-shadow: 0 10px 30px rgba(31,58,107,0.10);
+    max-width: 720px;
+  }
+  .field { margin-bottom: 16px; }
+  .field label {
+    display: block;
+    font-weight: bold;
+    color: var(--navy);
+    font-size: 15px;
+    margin-bottom: 6px;
+  }
+  .field input, .field textarea {
+    width: 100%;
+    font-family: var(--body);
+    font-size: 16px;
+    padding: 11px 13px;
+    border: 1.5px solid rgba(31,58,107,0.25);
+    border-radius: 8px;
+    background: #fffef9;
+    color: var(--charcoal);
+  }
+  .field input:focus, .field textarea:focus {
+    outline: none;
+    border-color: var(--navy);
+    box-shadow: 0 0 0 3px rgba(245,197,24,0.35);
+  }
+  .field textarea { min-height: 96px; resize: vertical; }
+  .form-note { font-size: 14.5px; color: var(--navy-soft); margin-top: 4px; }
+  .form-msg { margin-top: 14px; font-weight: bold; }
+  .form-msg.ok { color: #2e7d32; }
+  .form-msg.err { color: #c0533b; }
+  .alt-contact { margin-top: 18px; font-size: 16px; }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    text-align: center;
+    padding: 40px 22px 48px;
+    background: var(--navy);
+    color: #eaf0fb;
+  }
+  footer .fmission {
+    font-family: var(--head);
+    font-style: italic;
+    font-size: 17px;
+    max-width: 620px;
+    margin: 0 auto 18px;
+    color: #fff;
+  }
+  footer .ftag {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 11.5px;
+    color: var(--yellow);
+    margin-bottom: 22px;
+  }
+  /* small but boldly colorful artist credit */
+  .faejays-credit {
+    display: inline-block;
+    margin-top: 6px;
+    font-weight: bold;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    color: #fff;
+    background: linear-gradient(90deg, #ff7a18, #ff2d95 45%, #9b2cff 75%, #2db5ff);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  }
+  footer .copy { font-size: 12.5px; color: #b9c6e2; margin-top: 18px; }
+</style>
+</head>
+<body>
+  <div class="page-bg"></div>
+  <div class="page-veil"></div>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-art"></div>
+    <img class="logo" src="assets/fbc-logo-color.png" alt="The Fuquay Business Coalition logo — a tree with deep roots" />
+    <h1>The Fuquay Business Coalition</h1>
+    <p class="tagline">It's as easy as FBC</p>
+    <p class="mission">&ldquo;To empower growth through authentic connections, collaborations and accountability.&rdquo;</p>
+    <a class="btn" href="#visit">Message Us and let us know you are visiting!</a>
+  </header>
+
+  <!-- WHAT WE ARE -->
+  <section class="band">
+    <div class="wrap">
+      <h2>What we're about<span class="accent"></span></h2>
+      <p class="lede">We're a room full of Fuquay-Varina business owners who show up for each other every week&hellip; when we can. 😅</p>
+      <p>Wednesday mornings are about breaking any ice that's built up and digging into the soil of our businesses to ensure we are all growing great roots together. We swap what's actually working, and hold each other to the goals we set. No stiff networking, only the occasional script in our circle of seats.</p>
+    </div>
+  </section>
+
+  <!-- WHEN & WHERE -->
+  <section class="band">
+    <div class="wrap">
+      <h2>When we meet<span class="accent"></span></h2>
+      <p>Wednesday mornings. Doors open at <strong>9 AM</strong>, the music's on, and we catch up in a circle before we get into it &mdash; an ice breaker and intros, the week's topic, referrals and recommendations, what's happening around town, a little group business, then we close on our mission and head out to start the day.</p>
+      <p>The <strong>first Wednesday of every month is Visitors Day</strong> &mdash; if you're thinking about checking us out, that's the perfect morning to walk in.</p>
+      <div class="meet-facts">
+        <div class="fact"><strong>When</strong><span>Wednesdays, 9:00 AM</span></div>
+        <div class="fact"><strong>Where</strong><span>The Citadel Event Space, Main Street, Downtown Fuquay-Varina</span></div>
+        <div class="fact"><strong>First-timers</strong><span>Always welcome &mdash; especially the 1st Wednesday</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CALENDAR -->
+  <section class="band">
+    <div class="wrap">
+      <h2>Mark your Wednesdays<span class="accent"></span></h2>
+      <p>Here's what's coming up. This calendar updates itself, so it's always current &mdash; meetings, Visitors Days, Member Spotlights, and the weeks we take off.</p>
+      <div class="cal-frame">
+        <iframe
+          title="FBC meeting calendar"
+          src="https://calendar.google.com/calendar/embed?src=yourneighbor%40thefuquaybusinesscoalition.com&ctz=America%2FNew_York&mode=AGENDA&showTitle=0&showPrint=0&showCalendars=0"
+          loading="lazy"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISIT / MESSAGE US -->
+  <section class="band" id="visit">
+    <div class="wrap">
+      <h2>Come see what we're about<span class="accent"></span></h2>
+      <p class="lede">Thinking about visiting? Tell us a little about you and we'll get you the details for your first Wednesday.</p>
+
+      <form class="fbc" id="fbc-form">
+        <div class="field">
+          <label for="name">Your name</label>
+          <input type="text" id="name" name="name" required autocomplete="name" />
+        </div>
+        <div class="field">
+          <label for="business">Your business</label>
+          <input type="text" id="business" name="business" autocomplete="organization" />
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required autocomplete="email" />
+          <div class="form-note">So we can write you back with the details.</div>
+        </div>
+        <div class="field">
+          <label for="heard">How did you hear about FBC?</label>
+          <input type="text" id="heard" name="heard" placeholder="A member, a friend, online, walked by…" />
+        </div>
+        <div class="field">
+          <label for="why">What brings you in? Why are you visiting?</label>
+          <textarea id="why" name="why" placeholder="Tell us a bit about what you're hoping to find."></textarea>
+        </div>
+
+        <!-- Anti-spam honeypot (hidden from people) -->
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off" />
+
+        <button class="btn" type="submit">Message Us and let us know you are visiting!</button>
+        <div class="form-msg" id="form-msg" role="status" aria-live="polite"></div>
+      </form>
+
+      <p class="alt-contact">Prefer email? Reach us anytime at
+        <a href="mailto:yourneighbor@thefuquaybusinesscoalition.com">yourneighbor@thefuquaybusinesscoalition.com</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p class="fmission">&ldquo;To empower growth through authentic connections, collaborations and accountability.&rdquo;</p>
+    <p class="ftag">The Fuquay Business Coalition &middot; Fuquay-Varina, NC</p>
+    <div><a class="faejays-credit" href="#">art by faejays</a></div>
+    <p class="copy">&copy; 2026 The Fuquay Business Coalition</p>
+  </footer>
+
+  <script>
+    // ---- Visitor form submission ----
+    // NOTE: delivery endpoint to be activated in the "form delivery" step.
+    // Built for Web3Forms (free, no account-on-our-side). Paste the access key below.
+    var WEB3FORMS_ACCESS_KEY = "REPLACE_WITH_ACCESS_KEY";
+
+    var form = document.getElementById('fbc-form');
+    var msg = document.getElementById('form-msg');
+
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      msg.className = 'form-msg';
+      msg.textContent = 'Sending…';
+
+      // Fallback: if no endpoint configured yet, open the visitor's email pre-filled.
+      if (WEB3FORMS_ACCESS_KEY === "REPLACE_WITH_ACCESS_KEY") {
+        var body =
+          'Name: ' + (form.name.value || '') + '\n' +
+          'Business: ' + (form.business.value || '') + '\n' +
+          'Email: ' + (form.email.value || '') + '\n' +
+          'How they heard: ' + (form.heard.value || '') + '\n' +
+          'Why visiting: ' + (form.why.value || '');
+        window.location.href = 'mailto:yourneighbor@thefuquaybusinesscoalition.com'
+          + '?subject=' + encodeURIComponent('FBC visit inquiry from ' + (form.name.value || 'a visitor'))
+          + '&body=' + encodeURIComponent(body);
+        msg.className = 'form-msg ok';
+        msg.textContent = 'Opening your email app so you can hit send…';
+        return;
+      }
+
+      try {
+        var data = {
+          access_key: WEB3FORMS_ACCESS_KEY,
+          subject: 'FBC visit inquiry from ' + (form.name.value || 'a visitor'),
+          from_name: 'FBC Website',
+          name: form.name.value,
+          business: form.business.value,
+          email: form.email.value,
+          how_they_heard: form.heard.value,
+          why_visiting: form.why.value
+        };
+        var res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        var out = await res.json();
+        if (out.success) {
+          form.reset();
+          msg.className = 'form-msg ok';
+          msg.textContent = "Thanks! We got it — we'll be in touch soon. See you on a Wednesday.";
+        } else {
+          throw new Error(out.message || 'Something went wrong');
+        }
+      } catch (err) {
+        msg.className = 'form-msg err';
+        msg.innerHTML = "Hmm, that didn't send. Please email us at " +
+          "<a href='mailto:yourneighbor@thefuquaybusinesscoalition.com'>yourneighbor@thefuquaybusinesscoalition.com</a>.";
+      }
+    });
+  </script>
+</body>
+</html>
